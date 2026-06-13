@@ -14,7 +14,7 @@ const app = express();
 
 // CORS configuration
 const allowedOrigins = [
-  'https://dwpsalwar-front.vercel.app',
+  'dwpsalwar-main.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
