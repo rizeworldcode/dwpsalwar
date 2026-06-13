@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/* --- Fix mobile browser address bar shifting fixed elements --- */
+html {
+  height: 100%;
+  /* CRITICAL: Prevent any child from causing horizontal scroll */
+  overflow-x: hidden;
+}
+body {
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* GPU-composite the body to stabilize fixed children on iOS/Chrome */
+  -webkit-overflow-scrolling: touch;
+  /* Ensure body never exceeds viewport width */
+  max-width: 100%;
+}
+
+/* Prevent oversized images from causing horizontal overflow */
+img {
+  max-width: 100%;
+}
+
+/* Prevent any element from causing horizontal scroll */
+* {
+  box-sizing: border-box;
+}
+
+/* --- Premium Reveal-on-Scroll Animations --- */
+
+/* Base reveal class */
+.reveal {
+  opacity: 0;
+  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
+}
+
+/* Slide Up & Fade In */
+.reveal-fade-up {
+  transform: translateY(40px);
+}
+.reveal-fade-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide Down & Fade In */
+.reveal-fade-down {
+  transform: translateY(-40px);
+}
+.reveal-fade-down.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide Left & Fade In */
+.reveal-slide-left {
+  transform: translateX(-50px);
+}
+.reveal-slide-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide Right & Fade In */
+.reveal-slide-right {
+  transform: translateX(50px);
+}
+.reveal-slide-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Zoom In / Grow Bigger */
+.reveal-zoom-in {
+  transform: scale(0.92);
+}
+.reveal-zoom-in.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fade In Only */
+.reveal-fade {
+  transform: none;
+}
+.reveal-fade.revealed {
+  opacity: 1;
+}
+
+/* Delay modifiers */
+.reveal-delay-100 { transition-delay: 100ms; }
+.reveal-delay-200 { transition-delay: 200ms; }
+.reveal-delay-300 { transition-delay: 300ms; }
+.reveal-delay-400 { transition-delay: 400ms; }
+.reveal-delay-500 { transition-delay: 500ms; }
+
+/* 3D Tilt Card Base styling */
+.tilt-card {
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+}
+.tilt-card > * {
+  transform: translateZ(20px); /* 3D pop effect for child elements */
+}
+
+/* --- Premium Infinite Marquee Scroller --- */
+@keyframes marquee-ltr {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 45s linear infinite;
+}
+
+.animate-marquee-ltr:hover {
+  animation-play-state: paused;
+}
+
