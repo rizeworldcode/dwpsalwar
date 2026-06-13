@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileText, LogIn, AlertCircle, Loader2 } from 'lucide-react';
@@ -25,7 +26,7 @@ const StudentLogin = () => {
     setIsLoading(true);
     (async () => {
       try {
-        const res = await fetch('http://localhost:50000/student_login', {
+        const res = await fetch(`${API_BASE_URL}/student_login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

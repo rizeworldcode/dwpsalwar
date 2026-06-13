@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -25,7 +26,7 @@ const TcUpload = () => {
   // Helper to fetch dashboard data from backend and populate states
   const fetchDashboardData = async () => {
     try {
-      const res = await fetch('http://localhost:50000/admin_dashboardGet', {
+      const res = await fetch(`${API_BASE_URL}/admin_dashboardGet`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -61,7 +62,7 @@ const TcUpload = () => {
   // Fetch single TC details (including stored file name) and open preview
   const fetchTcView = async (studentId: string) => {
     try {
-      const res = await fetch(`http://localhost:50000/TC_view/${encodeURIComponent(studentId)}`, {
+      const res = await fetch(`${API_BASE_URL}/TC_view/${encodeURIComponent(studentId)}`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -141,7 +142,7 @@ const TcUpload = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:50000/admin_logout', {
+      await fetch(`${API_BASE_URL}/admin_logout`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -241,7 +242,7 @@ const TcUpload = () => {
 
     (async () => {
       try {
-        const res = await fetch('http://localhost:50000/TC_uplode', {
+        const res = await fetch(`${API_BASE_URL}/TC_uplode`, {
           method: 'POST',
           body: formData,
           credentials: 'include'
@@ -280,7 +281,7 @@ const TcUpload = () => {
 
     (async () => {
       try {
-        const res = await fetch('http://localhost:50000/TC_delete', {
+        const res = await fetch(`${API_BASE_URL}/TC_delete`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -317,7 +318,7 @@ const TcUpload = () => {
         payload.TC_number = editingTc.tcNumber;
       }
 
-      const res = await fetch(`http://localhost:50000/update-tc/${encodeURIComponent(editingTc.studentId)}`, {
+      const res = await fetch(`${API_BASE_URL}/update-tc/${encodeURIComponent(editingTc.studentId)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -849,7 +850,7 @@ const TcUpload = () => {
                 {previewTc.fileName && (
                   <div className="absolute inset-0 flex items-center justify-center z-10 p-4">
                     <iframe
-                      src={previewTc.fileName.startsWith('uploads') ? `http://localhost:50000/${previewTc.fileName}` : `http://localhost:50000/uploads/tc/${previewTc.fileName}`}
+                      src={previewTc.fileName.startsWith('uploads') ? `${API_BASE_URL}/${previewTc.fileName}` : `${API_BASE_URL}/uploads/tc/${previewTc.fileName}`}
                       title="TC Preview"
                       className="w-full h-full rounded-2xl border"
                       style={{ minHeight: 300 }}
@@ -906,7 +907,7 @@ const TcUpload = () => {
                 {previewTc.fileName ? (
                   (() => {
                     const fname = previewTc.fileName;
-                    const href = fname.startsWith('uploads') ? `http://localhost:50000/${fname}` : `http://localhost:50000/uploads/tc/${fname}`;
+                    const href = fname.startsWith('uploads') ? `${API_BASE_URL}/${fname}` : `${API_BASE_URL}/uploads/tc/${fname}`;
                     return (
                       <a
                         href={href}

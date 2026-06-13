@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 import { GraduationCap, LogOut, UserCheck, User, AlertCircle } from 'lucide-react';
 import AnimatedPage from '../../components/AnimatedPage';
@@ -21,7 +22,7 @@ const StudentTc = () => {
       }
 
       try {
-        const res = await fetch(`http://localhost:50000/TC_view/${encodeURIComponent(studentId)}`, {
+        const res = await fetch(`${API_BASE_URL}/TC_view/${encodeURIComponent(studentId)}`, {
           method: 'GET',
           credentials: 'include'
         });
@@ -61,7 +62,7 @@ const StudentTc = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:50000/student_logout', {
+      await fetch(`${API_BASE_URL}/student_logout`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -93,7 +94,7 @@ const StudentTc = () => {
   const normalized = filePath.startsWith('/') ? filePath.slice(1) : filePath;
   // If filePath already an absolute URL, return it
   if (filePath.startsWith('http://') || filePath.startsWith('https://')) return filePath;
-  return `http://localhost:50000/public-file?path=${encodeURIComponent(normalized)}`;
+  return `${API_BASE_URL}/public-file?path=${encodeURIComponent(normalized)}`;
   };
 
   // No iframe preview in dev fallback; open in new tab instead

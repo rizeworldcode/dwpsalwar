@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, LogIn, AlertCircle, Loader2 } from 'lucide-react';
@@ -38,7 +39,7 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:50000/admin_login', {
+      const res = await fetch(`${API_BASE_URL}/admin_login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // include credentials in case backend sets cookies

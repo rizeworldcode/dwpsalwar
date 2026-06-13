@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Check, AlertCircle, Loader2, KeyRound, ArrowLeft, Eye, EyeOff } from 'lucide-react';
@@ -50,7 +51,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:50000/sendOtpTOadmin', {
+      const response = await fetch(`${API_BASE_URL}/sendOtpTOadmin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -107,7 +108,7 @@ const ForgotPassword = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:50000/sendOtpTOadmin', {
+      const response = await fetch(`${API_BASE_URL}/sendOtpTOadmin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -137,7 +138,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:50000/verifyOtp', {
+      const response = await fetch(`${API_BASE_URL}/verifyOtp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp: otpCode }),
@@ -173,7 +174,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:50000/admin_forgatePassword?email=${encodeURIComponent(email)}`, {
+      const response = await fetch(`${API_BASE_URL}/admin_forgatePassword?email=${encodeURIComponent(email)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newPassword }),
