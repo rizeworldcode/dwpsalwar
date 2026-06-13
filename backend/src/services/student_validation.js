@@ -1,42 +1,40 @@
-const Tc_model = require("../models/TC")
-const bcrypt = require("bcryptjs");
+const Tc_model = require("../models/TC");
 const jwt = require("jsonwebtoken");
 
 exports.student_login = async (req, res) => {
-
     try {
-            const { student_ID, student_Password, password } = req.body;
-            // frontend may send 'password' or 'student_Password'
-            const providedPassword = student_Password || password;
-            if (!student_ID || !providedPassword) {
-                return {
-                    message: "Student ID and password are required",
-                    success: false
-                }
-            }
-        const validStudent = await Tc_model.findOne({ student_ID })
+        const { student_ID, TC_number } = req.body;
+
+        // Check if we have TC number (required)
+        if (!TC_number) {
+            return {
+                message: "TC number is required",
+                success: false
+            };
+        }
+
+        // Find student by TC number
+        const validStudent = await Tc_model.findOne({ TC_number });
         if (!validStudent) {
             return {
-                message: "student data not found",
+                message: "TC not found",
                 success: false
-            }
+            };
         }
-        const isPasswordValid = await bcrypt.compare(
-            providedPassword,
-            validStudent.student_password
-        );
 
-        if (!isPasswordValid) {
+        // If student ID is provided, verify it matches the record
+        if (student_ID && validStudent.student_ID !== student_ID) {
             return {
-                message: "Invalid email or password",
+                message: "Student ID and TC number do not match",
                 success: false
-            }
+            };
         }
 
         const token = jwt.sign({ id: validStudent._id }, process.env.SECRET_KEY);
         if (!token) {
-            return res.json({ message: " Token generation failed" });
+            return res.json({ message: "Token generation failed" });
         }
+
         // Set the token to cookies
         res.cookie("token", token);
         const authKeyInsertion = await Tc_model.findOneAndUpdate(
@@ -53,18 +51,15 @@ exports.student_login = async (req, res) => {
             message: "Student logged in successfully",
             success: true,
             token: token,
-            // Provide both identifiers: external student_ID and internal Mongo _id
-            studentId: validStudent.student_ID, // frontend expects this for /TC_view/:student_ID
+            studentId: validStudent.student_ID,
             studentObjectId: validStudent._id
         };
-
     } catch (error) {
         console.log(error);
         return {
             message: error.message || "Internal server error",
             success: false,
-        }
-
+        };
     }
 }
 

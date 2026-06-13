@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { type } = require("node:os");
 
 const TcSchema = new mongoose.Schema({
 
@@ -11,14 +10,15 @@ const TcSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    student_password:{
-        type:String,
+    TC_number: {
+        type: String,
         required: true,
+        unique: true,
     },
-      auth_key: {
-    type: String,
-    default: null,
-  },
+    auth_key: {
+        type: String,
+        default: null,
+    },
     status: {
         type: String,
         required: true,
