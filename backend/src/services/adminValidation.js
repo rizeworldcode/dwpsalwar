@@ -6,17 +6,23 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "vikasjangid3352@gmail.com",
-        pass: "wtqe znhi gtmv oyfa",
+        user: "rizeworldcode@gmail.com",
+        pass: "tzyj jabr qyid ynxb",
     },
 });
 
 const sendOTP = (email, otp) => {
     const mailOptions = {
-        from: "vikasjangid3352@gmail.com",
+        from: "rizeworldcode@gmail.com",
         to: email,
-        subject: "Your OTP Code",
-        text: `Your OTP code is ${otp}`,
+        subject: "Password Reset Verification Code",
+        text: `Dear User,
+Your verification code is:
+${otp}
+This code is valid for 10 minutes.
+If you did not request a password reset, please ignore this email.
+Thank you,
+RizeWorld Team`,
     };
 
     return transporter.sendMail(mailOptions);
@@ -192,7 +198,7 @@ exports.admin_forgatePassword = async (req, res) => {
     const { newPassword } = req.body;
     const email = req.query.email;
     console.log(newPassword, email);
-    
+
 
     try {
         if (!newPassword && !email) {
@@ -235,7 +241,7 @@ exports.admin_forgatePassword = async (req, res) => {
 exports.admin_logout = async (req, res) => {
     try {
         const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
-        
+
         if (token) {
             try {
                 const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -249,7 +255,7 @@ exports.admin_logout = async (req, res) => {
 
         // Invalidate the token cookie
         res.clearCookie("token");
-        
+
         return {
             success: true,
             message: "Logged out successfully",
